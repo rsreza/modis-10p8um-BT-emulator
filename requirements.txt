@@ -1,0 +1,30 @@
+# =============================================================================
+# Core dependencies for diffusion-icon-modis-emulator
+#
+# Install (CPU, works everywhere):
+#     pip install -r requirements.txt
+#
+# Install (GPU with CUDA 12.1):
+#     pip install -r requirements-gpu.txt
+# =============================================================================
+
+# --- PyTorch index for CPU wheels (must be first) ---
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# --- Numerical / scientific stack ---
+numpy>=1.26
+scipy>=1.11
+xarray>=2024.1
+netCDF4>=1.6
+
+# --- Plotting and utilities ---
+matplotlib>=3.8
+pyyaml>=6.0
+tqdm>=4.66
+
+# --- Generative modeling ---
+diffusers>=0.27
+
+# --- Deep learning framework (CPU build by default) ---
+torch>=2.2
+torchvision>=0.17

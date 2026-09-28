@@ -1,0 +1,55 @@
+# =============================================================================
+# Default configuration for training the diffusion emulator
+# =============================================================================
+
+# --- Paths ---
+paths:
+  icon:   data/synthetic_icon.nc
+  modis:  data/synthetic_modis.nc
+  seviri: data/synthetic_seviri.nc
+  checkpoint_dir: checkpoints
+
+# --- Data ---
+data:
+  tile_size: 64
+  samples_per_epoch: 400
+  val_fraction: 0.1
+  batch_size: 4
+  num_workers: 0
+
+# --- Model ---
+model:
+  in_channels_cond: 8
+  target_channels: 1
+  sample_size: 64
+  block_out_channels: [32, 64, 96, 128]
+  layers_per_block: 2
+  cross_attention_dim: 8
+  num_train_timesteps: 1000
+  num_inference_steps: 50
+
+# --- Training ---
+training:
+  n_epochs: 20
+  learning_rate: 1.0e-4
+  log_every: 10
+  save_every_epoch: 5
+  num_threads: 1
+  seed: 0
+  device: auto
+
+  # --- Physical constraints ---
+  # Weights for the physical penalty terms added to the diffusion loss.
+  # 0.0 = disabled.
+  physical:
+    enabled: true
+    lambda_bounds:   1.0e-3     # BT bounds hinge
+    lambda_smooth:   1.0e-6     # spatial Laplacian
+    lambda_temporal: 0.0        # (needs multi-frame batches)
+    lambda_cloud:    1.0e-5     # cloud/BT consistency (needs cloud mask)
+    # Normalization stats used to denormalize before applying constraints
+    bt_mean_k: 270.0
+    bt_std_k:  15.0
+
+# --- Reproducibility ---
+seed: 42
